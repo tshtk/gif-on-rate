@@ -1,5 +1,6 @@
 package com.github.tshtk.gifonrate;
 
+import org.apache.tika.Tika;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,20 +26,22 @@ class GifOnRateApplicationTests {
 	private TestRestTemplate restTemplate;
 
 	@Test
-	void shouldReturnImage() throws Exception {
+	void shouldReturnImage() {
+		Tika tika = new Tika();
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
-		HttpEntity<?> entity = new HttpEntity<>(headers);
+		HttpEntity<?> httpEntity = new HttpEntity<>(headers);
 
-		String urlTemplate = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/gifs/")
+		String url = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/gifs/")
 			.queryParam("currency", "RUB")
 			.toUriString();
 
 		ResponseEntity<byte[]> response = restTemplate
-			.exchange(urlTemplate, HttpMethod.GET, entity, byte[].class);
+			.exchange(url, HttpMethod.GET, httpEntity, byte[].class);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getHeaders().getContentType()).isEqualTo(MediaType.IMAGE_GIF);
-		assertThat(response.getBody()).isNotEmpty();
+		assertThat(tika.detect(response.getBody())).isEqualTo(MediaType.IMAGE_GIF.toString());
 	}
 }

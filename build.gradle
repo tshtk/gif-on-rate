@@ -31,6 +31,8 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testImplementation 'org.apache.tika:tika-core:2.3.0'
 }
 
 dependencyManagement {
