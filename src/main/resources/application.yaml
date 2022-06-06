@@ -1,0 +1,12 @@
+gifonrate:
+  tags:
+    increase: rich
+    decrease: broke
+    const: calm
+  gif-client:
+    url: https://api.giphy.com/v1/gifs/random
+    api-key: pPlIYCOUiXBGcsl118DDxFoFsDdW6OJV
+  rates-client:
+    url: https://openexchangerates.org/api/historical/
+    app-id: 188f22b670cf42d28a4bedd72ee9ae7b
+    base-currency: USD
